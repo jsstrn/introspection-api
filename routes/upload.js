@@ -7,7 +7,7 @@ const upload = multer({
   dest: "./public/uploads/"
 });
 
-router.route("/").post(upload.single("csv"), (req, res) => {
+router.route("/").post(upload.single("file"), (req, res) => {
   console.log("🗄 File metadata", req.file);
   const {destination, originalname, mimetype} = req.file;
   return res.send(`👍 Successfully uploaded ${originalname} to ${destination}`);
