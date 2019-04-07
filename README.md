@@ -5,8 +5,8 @@ This spike tries to upload `csv` files in MongoDB
 ## Checklist
 
 - [x] Upload any file to a destination folder `public/uploads`
-- [ ] Save any file as Buffer object to the database
-- [ ] Only save `csv` files to the database
+- [x] Save any file as Buffer object to the database
+- [x] Only save `csv` files to the database
 - [ ] Limit file size to 16MB and below
 
 ## Notes
