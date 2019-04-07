@@ -1,0 +1,27 @@
+{
+  "name": "spike-csv-mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:dev": "nodemon server.js",
+    "start:db": "mongod --dbpath ~/data/db",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.22",
+    "multer": "^1.4.1"
+  },
+  "devDependencies": {
+    "dotenv": "^7.0.0",
+    "jest": "^24.7.1",
+    "mongodb-memory-server": "^4.2.1",
+    "nodemon": "^1.18.10",
+    "supertest": "^4.0.2"
+  }
+}
