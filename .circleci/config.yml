@@ -21,3 +21,15 @@ jobs:
       - run: npm run lint
 
       - run: npm test
+
+  deploy-auto:
+    docker:
+      - image: buildpack-deps:trusty
+      - image: circleci/mongo:4.0.6
+    environment:
+      AUTO_HEROKU_APP_NAME: 'auto-introspection-api'
+    steps:
+      - checkout
+      - run:
+          name: Deploy auto environment to Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$AUTO_HEROKU_APP_NAME.git master
