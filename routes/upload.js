@@ -27,7 +27,7 @@ router.use(upload.single("file"));
 
 router.route("/").post((req, res) => {
   if (!req.file) {
-    return res.send(500, "Only CSV files are allowed");
+    return res.status(400).send("Only CSV files are allowed");
   }
 
   console.log("🗄 File metadata", req.file);
@@ -36,9 +36,9 @@ router.route("/").post((req, res) => {
   const file = new File({ binary: buffer });
   file.save((err, file) => {
     if (err) {
-      return res.send(500, err);
+      return res.status(500).send(err);
     }
-    return res.send(201, `👍 Successfully uploaded ${originalname}`);
+    return res.status(201).send(`👍 Successfully uploaded ${originalname}`);
   });
 });
 
