@@ -9,12 +9,16 @@ describe('Uploading CSV files to MongoDB', () => {
   let db;
 
   beforeAll(async () => {
+    jest.setTimeout(120000);
     mongoServer = new MongoMemoryServer();
     const mongoUri = await mongoServer.getConnectionString();
     await mongoose.connect(mongoUri, {
       useCreateIndex: true,
       useNewUrlParser: true,
-      useFindAndModify: false
+      useFindAndModify: false,
+      autoReconnect: true,
+      reconnectTries: Number.MAX_VALUE,
+      reconnectInterval: 1000
     });
     db = mongoose.connection;
   });
