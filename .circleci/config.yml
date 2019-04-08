@@ -33,3 +33,12 @@ jobs:
       - run:
           name: Deploy auto environment to Heroku
           command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$AUTO_HEROKU_APP_NAME.git master
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-auto:
+          requires:
+            - build
