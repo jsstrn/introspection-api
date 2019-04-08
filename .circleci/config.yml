@@ -26,21 +26,29 @@ jobs:
     docker:
       - image: buildpack-deps:trusty
     environment:
-      AUTO_HEROKU_APP_NAME: 'auto-introspection-api'
+      HEROKU_APP_NAME: 'auto-introspection-api'
     steps:
       - checkout
       - run:
           name: Deploy auto environment to Heroku
-          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$AUTO_HEROKU_APP_NAME.git master
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
   smoke-test:
     docker:
       - image: buildpack-deps:trusty
-    environment:
-      AUTO_HEROKU_APP_NAME: 'auto-introspection-api'
     steps:
       - run:
           name: Server smoke test
-          command: curl -f https://$AUTO_HEROKU_APP_NAME.herokuapp.com
+          command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
+  deploy-test:
+    docker:
+      - image: buildpack-deps:trusty
+    environment:
+      HEROKU_APP_NAME: 'test-introspection-api'
+    steps:
+      - checkout
+      - run:
+          name: Deploy test environment to Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 
 workflows:
   version: 2
@@ -51,5 +59,14 @@ workflows:
           requires:
             - build
       - smoke-test:
+          context: deploy-auto
           requires:
             - deploy-auto
+      - deploy-test:
+          type: approval
+          requires:
+            - deploy-auto
+      - smoke-test:
+          context: deploy-test
+          requires:
+            - deploy-test
