@@ -75,8 +75,11 @@ workflows:
       - smoke-test-auto:
           requires:
             - deploy-auto
-      - deploy-test:
+      - hold:
           type: approval
+          requires:
+            - deploy-auto
+      - deploy-test:
           requires:
             - deploy-auto
       - smoke-test-test:
