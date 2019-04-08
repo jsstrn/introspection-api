@@ -25,7 +25,6 @@ jobs:
   deploy-auto:
     docker:
       - image: buildpack-deps:trusty
-      - image: circleci/mongo:4.0.6
     environment:
       AUTO_HEROKU_APP_NAME: 'auto-introspection-api'
     steps:
