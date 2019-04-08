@@ -59,7 +59,6 @@ workflows:
           requires:
             - build
       - smoke-test:
-          name: smoke-test-auto
           context: deploy-auto
           requires:
             - deploy-auto
@@ -68,7 +67,6 @@ workflows:
           requires:
             - deploy-auto
       - smoke-test:
-          name: smoke-test-test
           context: deploy-test
           requires:
             - deploy-test
