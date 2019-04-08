@@ -1,6 +1,33 @@
-# spike-csv-mongo
+# introspection-api
 
-This spike shows how to upload `csv` files in MongoDB
+This repository contains backend api for the introspection app
+
+## Getting started
+
+Install dependencies
+
+```
+npm install
+```
+
+Add `.env` file with the following details
+
+```
+PORT=7890
+MONGODB_URI="mongodb://localhost/introspection-db"
+```
+
+Run linter
+
+```
+npm run lint
+```
+
+Run tests
+
+```
+npm test
+```
 
 ## Checklist
 
