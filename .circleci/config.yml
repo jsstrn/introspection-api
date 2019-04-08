@@ -32,14 +32,12 @@ jobs:
       - run:
           name: Deploy auto environment to Heroku
           command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$AUTO_HEROKU_APP_NAME.git master
-
   smoke-test:
     docker:
       - image: buildpack-deps:trusty
     environment:
       AUTO_HEROKU_APP_NAME: 'auto-introspection-api'
     steps:
-      - run: sleep 60
       - run:
           name: Server smoke test
           command: curl -f https://$AUTO_HEROKU_APP_NAME.herokuapp.com
