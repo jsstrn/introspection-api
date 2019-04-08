@@ -81,7 +81,7 @@ workflows:
             - deploy-auto
       - deploy-test:
           requires:
-            - deploy-auto
+            - hold
       - smoke-test-test:
           requires:
             - deploy-test
