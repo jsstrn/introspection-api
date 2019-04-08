@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const File = require('../models/File');
-const Survey = require('../models/Survey');
+const Introspect = require('../models/Introspect');
 const csv = require('csvtojson');
 
 const storage = multer.memoryStorage();
@@ -37,9 +37,11 @@ router.route('/').post((req, res) => {
   const file = new File({ binary: buffer });
   file.save(async (err, buffer) => {
     if (err) {
+      // console.log('hit error');
       return res.status(500).send(err);
     }
     try {
+      // console.log('hit');
       const data = buffer.binary.toString('utf8');
       const jsonArray = await csv().fromString(data);
 
@@ -63,7 +65,7 @@ router.route('/').post((req, res) => {
           const pattern = /(?<=\[).*(?=\]$)/;
           const amendedKey = item.match(pattern)[0];
           const object = {
-            name: amendedKey,
+            category: amendedKey,
             level: result[amendedKey],
             action: result[item] ? result[item].split(', ') : []
           };
@@ -73,8 +75,8 @@ router.route('/').post((req, res) => {
         }
         result.categories = categories;
       }
-      await Survey.collection.deleteMany({});
-      await Survey.insertMany(jsonArray);
+      await Introspect.collection.deleteMany({});
+      await Introspect.insertMany(jsonArray);
       return res.status(201).send(`👍 Successfully uploaded ${originalname}`);
     } catch (error) {
       res.status(500).json({ error: error.message });
