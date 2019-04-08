@@ -30,11 +30,11 @@ router.route('/').post((req, res) => {
   const { buffer, originalname } = req.file;
 
   const file = new File({ binary: buffer });
-  file.save(err => {
+  file.save((err, file) => {
     if (err) {
       return res.status(500).send(err);
     }
-    return res.status(201).send(`👍 Successfully uploaded ${originalname}`);
+    return res.status(201).send(file);
   });
 });
 
