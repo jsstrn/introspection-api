@@ -55,6 +55,14 @@ const seedIntrospection = async () => {
     office: 'Singapore',
     categories: [category3, category2]
   };
-  await Introspection.insertMany([dummyTw1, dummyTw2]);
+
+  const dummyTw3 = {
+    timeStamp: '2019-03-06T02:24:00.000Z',
+    name: 'xyz',
+    email: 'xyz@tw.com',
+    office: 'Thailand',
+    categories: [category1, category2]
+  };
+  await Introspection.insertMany([dummyTw1, dummyTw2, dummyTw3]);
 };
 module.exports = { actionSeed, categorySeed, levelSeed, seedIntrospection };
