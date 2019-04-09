@@ -40,8 +40,8 @@ jobs:
       HEROKU_APP_NAME: 'auto-introspection-api'
     steps:
       - run:
-          name: Server smoke test
-          command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
+          name: Smoke test for auto environment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com
 
   deploy-test:
     docker:
@@ -61,9 +61,9 @@ jobs:
       HEROKU_APP_NAME: 'test-introspection-api'
     steps:
       - run:
-          name: Server smoke test
-          command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
- 
+          name: Smoke test for test environment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com
+
   deploy-staging:
     docker:
       - image: buildpack-deps:trusty
@@ -82,8 +82,8 @@ jobs:
       HEROKU_APP_NAME: 'staging-introspection-api'
     steps:
       - run:
-          name: Server smoke test
-          command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
+          name: Smoke test for staging environment
+          command: curl --fail https://$HEROKU_APP_NAME.herokuapp.com
 
 workflows:
   version: 2
@@ -116,4 +116,3 @@ workflows:
       - smoke-test-staging:
           requires:
             - deploy-staging
-            
