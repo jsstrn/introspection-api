@@ -2,6 +2,14 @@
 
 const app = require('./app');
 const mongoose = require('mongoose');
+const Category = require('./models/Category');
+const Action = require('./models/Action');
+const Level = require('./models/Level');
+const {
+  actionSeed,
+  levelSeed,
+  categorySeed
+} = require('./tests/fixtures/seed');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -26,10 +34,16 @@ db.on('connected', err => {
 });
 
 db.once('connected', () => {
-  app.listen(port, () => {
+  app.listen(port, async () => {
     if (process.env.NODE_ENV === 'production') {
       console.log(`Server is running on Heroku with port number ${port}`);
     } else {
+      await Action.deleteMany({});
+      await Category.deleteMany({});
+      await Level.deleteMany({});
+      await Action.insertMany(actionSeed);
+      await Category.insertMany(categorySeed);
+      await Level.insertMany(levelSeed);
       console.log(`Server is running on http://localhost:${port}`);
     }
   });

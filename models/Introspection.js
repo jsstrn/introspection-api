@@ -1,14 +1,8 @@
 const mongoose = require('mongoose');
 
 const offices = ['Singapore', 'Thailand', 'Others'];
-const levels = ['1. Open', '2. Informed', '3. Engaged', '4. Activated'];
-const actions = [
-  'Would like to explore',
-  'Would like to deepen',
-  'Would like to share'
-];
 
-const introspectSchema = new mongoose.Schema({
+const introspectionSchema = new mongoose.Schema({
   timeStamp: {
     type: Date,
     required: true
@@ -29,22 +23,26 @@ const introspectSchema = new mongoose.Schema({
   categories: [
     {
       category: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true
       },
       level: {
-        type: String,
-        enum: levels,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Level',
         required: true
       },
-      action: {
-        type: [String],
-        enum: actions
-      }
+      action: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Action',
+          required: true
+        }
+      ]
     }
   ]
 });
 
-const Introspect = mongoose.model('Introspect', introspectSchema);
+const Introspection = mongoose.model('Introspection', introspectionSchema);
 
-module.exports = Introspect;
+module.exports = Introspection;
