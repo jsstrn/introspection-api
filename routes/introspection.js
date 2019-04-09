@@ -33,6 +33,7 @@ router.route('/').get(
         .populate('categories.action')
         .populate('categories.level');
     }
+    console.log(introspections)
     //deep clone
     const jsonString = JSON.stringify(introspections);
     introspections = JSON.parse(jsonString);

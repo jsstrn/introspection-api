@@ -5,10 +5,12 @@ const mongoose = require('mongoose');
 const Category = require('./models/Category');
 const Action = require('./models/Action');
 const Level = require('./models/Level');
+const Introspection = require('./models/Introspection');
 const {
   actionSeed,
   levelSeed,
-  categorySeed
+  categorySeed,
+  seedIntrospection
 } = require('./tests/fixtures/seed');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -38,12 +40,14 @@ db.once('connected', () => {
     if (process.env.NODE_ENV === 'production') {
       console.log(`Server is running on Heroku with port number ${port}`);
     } else {
+      await Introspection.deleteMany({});
       await Action.deleteMany({});
       await Category.deleteMany({});
       await Level.deleteMany({});
       await Action.insertMany(actionSeed);
       await Category.insertMany(categorySeed);
       await Level.insertMany(levelSeed);
+      await seedIntrospection();
       console.log(`Server is running on http://localhost:${port}`);
     }
   });

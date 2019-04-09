@@ -54,7 +54,7 @@ describe('Categories', () => {
   });
 
   describe('[GET]', () => {
-    it('should return 200 & all results if no query parameters', async () => {
+    it('should return 200 & all results', async () => {
       const res = await request(app)
         .get(route())
         .expect(200);
