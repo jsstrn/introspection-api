@@ -84,8 +84,8 @@ describe('Uploading CSV files to MongoDB', () => {
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
         .attach('file', `${__dirname}/../tests/fixtures/data-duplicate.csv`)
-        .expect(500);
-      expect(res.body.error).toEqual(
+        .expect(400);
+      expect(res.body.message).toEqual(
         expect.stringMatching(/duplicate key error/i)
       );
     });
@@ -96,7 +96,7 @@ describe('Uploading CSV files to MongoDB', () => {
         .set('Content-Type', 'multipart/form-data')
         .attach('file', `${__dirname}/../tests/fixtures/data-excel-format.xlsx`)
         .expect(400);
-      expect(res.text).toBe('Only CSV files are allowed');
+      expect(res.body.message).toBe('Only CSV files are allowed');
     });
 
     test('if csv file has new category, it should be created in the categories collection', async () => {
@@ -120,8 +120,8 @@ describe('Uploading CSV files to MongoDB', () => {
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
         .attach('file', `${__dirname}/../tests/fixtures/data-invalid-level.csv`)
-        .expect(500);
-      expect(res.body.error).toEqual(
+        .expect(400);
+      expect(res.body.message).toEqual(
         expect.stringMatching(/invalid level '5. Do not care'/i)
       );
     });
@@ -134,8 +134,8 @@ describe('Uploading CSV files to MongoDB', () => {
           'file',
           `${__dirname}/../tests/fixtures/data-category-field-empty.csv`
         )
-        .expect(500);
-      expect(res.body.error).toEqual(
+        .expect(400);
+      expect(res.body.message).toEqual(
         expect.stringMatching(
           /Value cannot be empty for 'Society and Privilege'/i
         )
@@ -150,8 +150,8 @@ describe('Uploading CSV files to MongoDB', () => {
           'file',
           `${__dirname}/../tests/fixtures/data-invalid-action.csv`
         )
-        .expect(500);
-      expect(res.body.error).toEqual(
+        .expect(400);
+      expect(res.body.message).toEqual(
         expect.stringMatching(/invalid action 'Would like to do nothing'/i)
       );
     });

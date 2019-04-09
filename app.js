@@ -7,6 +7,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/upload', require('./routes/upload'));
+app.use((err, req, res, next) => {
+  // console.log(err.message);
+  //   console.log(err.output.payload);
+  return res.status(err.output.statusCode).json(err.output.payload);
+});
 app.route('/').get(() => {});
 
 module.exports = app;

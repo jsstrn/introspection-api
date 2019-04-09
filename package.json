@@ -24,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "boom": "^7.3.0",
     "csvtojson": "^2.0.8",
     "express": "^4.16.4",
     "mongoose": "^5.4.22",
