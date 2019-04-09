@@ -63,6 +63,27 @@ jobs:
       - run:
           name: Server smoke test
           command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
+ 
+  deploy-staging:
+    docker:
+      - image: buildpack-deps:trusty
+    environment:
+      HEROKU_APP_NAME: 'staging-introspection-api'
+    steps:
+      - checkout
+      - run:
+          name: Deploy test environment to Heroku
+          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
+  smoke-test-staging:
+    docker:
+      - image: buildpack-deps:trusty
+    environment:
+      HEROKU_APP_NAME: 'staging-introspection-api'
+    steps:
+      - run:
+          name: Server smoke test
+          command: curl -f https://$HEROKU_APP_NAME.herokuapp.com
 
 workflows:
   version: 2
@@ -85,3 +106,14 @@ workflows:
       - smoke-test-test:
           requires:
             - deploy-test
+      - hold-staging:
+          type: approval
+          requires:
+            - deploy-test
+      - deploy-staging:
+          requires:
+            - hold-staging
+      - smoke-test-staging:
+          requires:
+            - deploy-staging
+            
