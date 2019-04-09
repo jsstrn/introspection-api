@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Introspection = require('../models/Introspection');
-const Category = require('../models/Category');
-const Action = require('../models/Action');
-const Level = require('../models/Level');
 const boom = require('boom');
 const asyncMiddleware = require('../asyncMiddleware');
 
@@ -27,7 +24,6 @@ router.route('/').get(
         .populate('categories.action')
         .populate('categories.level');
 
-      console.log(introspections);
       if (introspections.length === 0) {
         throw boom.badRequest('Invalid Office');
       }
