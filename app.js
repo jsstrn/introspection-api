@@ -7,6 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // routes
 app.use('/upload', require('./routes/upload'));
+app.use('/introspection', require('./routes/introspection'));
 app.use((err, req, res, next) => {
   // console.log(err.message);
   //   console.log(err.output.payload);
