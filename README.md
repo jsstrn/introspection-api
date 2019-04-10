@@ -17,6 +17,18 @@ PORT=7890
 MONGODB_URI="mongodb://localhost/introspection-db"
 ```
 
+Start MongoDB
+
+```
+npm run start:db -- <path-to-your-db>
+```
+
+To start the database locally, you have to include the `--dbpath`. For example, if your `dbpath` is  `~/data/db` then run this command
+
+```
+npm run start:db -- ~/data/db
+```
+
 Run linter
 
 ```

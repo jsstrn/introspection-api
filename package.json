@@ -7,7 +7,7 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "start:server": "nodemon server.js",
-    "start:db": "mongod --dbpath ~/data/db",
+    "start:db": "mongod --dbpath",
     "lint": "eslint .",
     "lint:watch": "esw --watch .",
     "lint:fix": "eslint --fix .",
