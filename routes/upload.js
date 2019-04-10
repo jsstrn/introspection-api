@@ -15,9 +15,11 @@ const limit = {
 };
 
 const fileFilter = (req, file, cb) => {
+  console.log(file.mimetype);
   if (
     file.mimetype !== 'text/csv' &&
-    file.mimetype !== 'application/vnd.ms-excel'
+    file.mimetype !== 'application/vnd.ms-excel' &&
+    file.mimetype !== 'application/octet-stream'
   ) {
     cb(null, false);
   } else {
@@ -32,6 +34,7 @@ router.use(upload.single('file'));
 router.route('/').post(
   asyncMiddleware(async (req, res) => {
     if (!req.file) {
+      console.log(req);
       throw boom.badRequest('Only CSV files are allowed');
     }
     const { buffer, originalname } = req.file;
