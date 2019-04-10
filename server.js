@@ -28,11 +28,11 @@ mongoose.connect(mongodbUri);
 const db = mongoose.connection;
 
 db.on('error', err => {
-  console.error('⛈ Unable to connect to database', err);
+  console.error('⛈  Unable to connect to database', err);
 });
 
 db.on('connected', err => {
-  console.log('☀️ Successfully connected to the database', err);
+  console.log('☀️  Successfully connected to the database', err);
 });
 
 db.once('connected', () => {

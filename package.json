@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "start:dev": "nodemon server.js",
+    "start:server": "nodemon server.js",
     "start:db": "mongod --dbpath ~/data/db",
+    "start:dev": "npm run start:server && npm run start:db",
     "lint": "eslint .",
     "lint:watch": "esw --watch .",
     "lint:fix": "eslint --fix .",
