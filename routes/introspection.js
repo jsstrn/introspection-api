@@ -9,29 +9,20 @@ router.route('/').get(
     let introspections;
     const { email, office } = req.query;
     if (email) {
-      introspections = await Introspection.findOne({ email })
-        .populate('categories.category')
-        .populate('categories.action')
-        .populate('categories.level');
+      introspections = await Introspection.findOne({ email });
 
       if (!introspections) {
         throw boom.badRequest('Invalid Email');
       }
       introspections = [introspections];
     } else if (office) {
-      introspections = await Introspection.find({ office })
-        .populate('categories.category')
-        .populate('categories.action')
-        .populate('categories.level');
+      introspections = await Introspection.find({ office });
 
       if (introspections.length === 0) {
         throw boom.badRequest('Invalid Office');
       }
     } else {
-      introspections = await Introspection.find()
-        .populate('categories.category')
-        .populate('categories.action')
-        .populate('categories.level');
+      introspections = await Introspection.find();
     }
     //deep clone
     const jsonString = JSON.stringify(introspections);
@@ -39,11 +30,8 @@ router.route('/').get(
     const mappedIntrospections = introspections.map(result => {
       result.categories.map(item => {
         delete item._id;
-        item.category = item.category.name;
-        item.level = item.level.rank;
-        item.action = item.action.map(element => {
-          return element.name;
-        });
+        item.category = item.name;
+        item.level = item.level;
         return item;
       });
       return result;

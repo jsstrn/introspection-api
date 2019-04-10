@@ -1,6 +1,4 @@
 const Category = require('../../models/Category');
-const Level = require('../../models/Level');
-const Action = require('../../models/Action');
 const Introspection = require('../../models/Introspection');
 const actionSeed = [
   { name: 'Would like to explore' },
@@ -18,27 +16,27 @@ const categorySeed = [
   { name: 'Climate Injustice' }
 ];
 const levelSeed = [
-  { rank: 1, name: 'Open' },
-  { rank: 2, name: 'Informed' },
-  { rank: 3, name: 'Engaged' },
-  { rank: 4, name: 'Activated' }
+  { rank: '1. Open' },
+  { rank: '2. Informed' },
+  { rank: '3. Engaged' },
+  { rank: '4. Activated' }
 ];
 
 const seedIntrospection = async () => {
-  const cat1 = await Category.findOne(categorySeed[0]);
-  const cat2 = await Category.findOne(categorySeed[1]);
-  const cat3 = await Category.findOne(categorySeed[2]);
-  const level1 = await Level.findOne(levelSeed[0]);
-  const level2 = await Level.findOne(levelSeed[1]);
-  const act1 = await Action.findOne(actionSeed[0]);
-  const act2 = await Action.findOne(actionSeed[1]);
-
-  const category1 = { level: level1._id, category: cat1._id, action: act1._id };
-  const category2 = { level: level2._id, category: cat2._id, action: act1._id };
+  const category1 = {
+    level: levelSeed[0].rank,
+    name: categorySeed[0].name,
+    action: actionSeed[0].name
+  };
+  const category2 = {
+    level: levelSeed[1].rank,
+    name: categorySeed[1].name,
+    action: actionSeed[0].name
+  };
   const category3 = {
-    level: level1._id,
-    category: cat3._id,
-    action: [act1._id, act2._id]
+    level: levelSeed[0].rank,
+    name: categorySeed[2].name,
+    action: [actionSeed[0].name, actionSeed[1].name]
   };
   const dummyTw1 = {
     timeStamp: '2019-03-06T02:24:00.000Z',

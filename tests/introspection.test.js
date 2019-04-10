@@ -3,9 +3,6 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const Introspection = require('../models/Introspection');
-const Category = require('../models/Category');
-const Action = require('../models/Action');
-const Level = require('../models/Level');
 const {
   actionSeed,
   levelSeed,
@@ -35,16 +32,10 @@ describe('Get Introspections', () => {
   });
 
   beforeEach(async () => {
-    await Action.insertMany(actionSeed);
-    await Category.insertMany(categorySeed);
-    await Level.insertMany(levelSeed);
     await seedIntrospection();
   });
 
   afterEach(async () => {
-    await Action.collection.deleteMany({});
-    await Category.collection.deleteMany({});
-    await Level.collection.deleteMany({});
     await Introspection.collection.deleteMany({});
   });
 
@@ -61,12 +52,12 @@ describe('Get Introspections', () => {
       expect(result1.categories).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            category: categorySeed[0].name,
+            name: categorySeed[0].name,
             level: levelSeed[0].rank,
             action: [actionSeed[0].name]
           }),
           expect.objectContaining({
-            category: categorySeed[2].name,
+            name: categorySeed[2].name,
             level: levelSeed[0].rank,
             action: expect.arrayContaining([
               actionSeed[0].name,
@@ -138,17 +129,8 @@ describe('Get Introspections', () => {
           office: 'Singapore',
           categories: expect.arrayContaining([
             expect.objectContaining({
-              category: categorySeed[1].name,
-              level: levelSeed[1].rank,
-              action: expect.arrayContaining([actionSeed[0].name])
-            }),
-            expect.objectContaining({
-              category: categorySeed[2].name,
-              level: levelSeed[0].rank,
-              action: expect.arrayContaining([
-                actionSeed[0].name,
-                actionSeed[1].name
-              ])
+              name: categorySeed[2].name,
+              level: levelSeed[0].rank
             })
           ])
         })

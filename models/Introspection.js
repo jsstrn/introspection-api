@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const offices = ['Singapore', 'Thailand', 'Others'];
-
 const introspectionSchema = new mongoose.Schema({
   timeStamp: {
     type: Date,
@@ -17,28 +15,20 @@ const introspectionSchema = new mongoose.Schema({
     unique: true
   },
   office: {
-    type: String,
-    enum: offices
+    type: String
   },
   categories: [
     {
-      category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+      name: {
+        type: String,
         required: true
       },
       level: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Level',
-        required: true
+        type: String
       },
-      action: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Action',
-          required: true
-        }
-      ]
+      action: {
+        type: [String]
+      }
     }
   ]
 });

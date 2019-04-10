@@ -42,7 +42,6 @@ router.route('/').post(
 
     const jsonArray = await csvParser(buffercsv);
     await buildModel(jsonArray);
-
     await Introspection.collection.deleteMany({});
     await Introspection.insertMany(jsonArray);
     return res.status(201).send(`👍 Successfully uploaded ${originalname}`);

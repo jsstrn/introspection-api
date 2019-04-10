@@ -18,7 +18,7 @@ const route = (params = '') => {
   return `${path}/${params}`;
 };
 
-describe('Categories', () => {
+describe.skip('Categories', () => {
   beforeAll(async () => {
     jest.setTimeout(120000);
     mongoServer = new MongoMemoryServer();
@@ -40,16 +40,10 @@ describe('Categories', () => {
   });
 
   beforeEach(async () => {
-    await Action.insertMany(actionSeed);
-    await Category.insertMany(categorySeed);
-    await Level.insertMany(levelSeed);
     await seedIntrospection();
   });
 
   afterEach(async () => {
-    await Action.collection.deleteMany({});
-    await Category.collection.deleteMany({});
-    await Level.collection.deleteMany({});
     await Introspection.collection.deleteMany({});
   });
 
