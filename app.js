@@ -7,6 +7,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // routes
 app.use('/upload', require('./routes/upload'));
+app.use('/download', require('./routes/download'));
 app.use('/introspection', require('./routes/introspection'));
 app.use('/categories', require('./routes/categories'));
 app.use((err, req, res, next) => {
