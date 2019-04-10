@@ -34,7 +34,6 @@ router.route('/').post(
     if (!req.file) {
       throw boom.badRequest('Only CSV files are allowed');
     }
-
     const { buffer, originalname } = req.file;
 
     const file = new File({ binary: buffer });
@@ -44,7 +43,7 @@ router.route('/').post(
     await buildModel(jsonArray);
     await Introspection.collection.deleteMany({});
     await Introspection.insertMany(jsonArray);
-    return res.status(201).send(`👍 Successfully uploaded ${originalname}`);
+    return res.status(201).json(`👍 Successfully uploaded ${originalname}`);
   })
 );
 
