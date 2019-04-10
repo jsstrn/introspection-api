@@ -92,46 +92,5 @@ describe('Uploading CSV files to MongoDB', () => {
         ])
       );
     });
-
-    test.skip('should reject if category level is invalid', async () => {
-      const res = await request(app)
-        .post('/upload')
-        .set('Content-Type', 'multipart/form-data')
-        .attach('file', `${__dirname}/../tests/fixtures/data-invalid-level.csv`)
-        .expect(400);
-      expect(res.body.message).toEqual(
-        expect.stringMatching(/invalid level '5. Do not care'/i)
-      );
-    });
-
-    test.skip('should reject if category level is empty', async () => {
-      const res = await request(app)
-        .post('/upload')
-        .set('Content-Type', 'multipart/form-data')
-        .attach(
-          'file',
-          `${__dirname}/../tests/fixtures/data-category-field-empty.csv`
-        )
-        .expect(400);
-      expect(res.body.message).toEqual(
-        expect.stringMatching(
-          /Value cannot be empty for 'Society and Privilege'/i
-        )
-      );
-    });
-
-    test.skip('should reject if action plan value is invalid', async () => {
-      const res = await request(app)
-        .post('/upload')
-        .set('Content-Type', 'multipart/form-data')
-        .attach(
-          'file',
-          `${__dirname}/../tests/fixtures/data-invalid-action.csv`
-        )
-        .expect(400);
-      expect(res.body.message).toEqual(
-        expect.stringMatching(/invalid action 'Would like to do nothing'/i)
-      );
-    });
   });
 });
