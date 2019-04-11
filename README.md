@@ -1,4 +1,6 @@
-# 🗄 introspection-api
+# 🗄 introspection-server
+
+[![CircleCI](https://circleci.com/gh/jsstrn/introspection-api/tree/master.svg?style=svg)](https://circleci.com/gh/jsstrn/introspection-api/tree/master)
 
 This repository contains backend api for the introspection app
 
