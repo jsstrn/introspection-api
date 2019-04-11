@@ -9,14 +9,18 @@ router.route('/').get(
     let introspections;
     const { email, office } = req.query;
     if (email) {
-      introspections = await Introspection.findOne({ email });
+      introspections = await Introspection.findOne({
+        email: new RegExp('^' + email + '$', 'i')
+      });
 
       if (!introspections) {
         throw boom.badRequest('Invalid Email');
       }
       introspections = [introspections];
     } else if (office) {
-      introspections = await Introspection.find({ office });
+      introspections = await Introspection.find({
+        office: new RegExp('^' + office + '$', 'i')
+      });
 
       if (introspections.length === 0) {
         throw boom.badRequest('Invalid Office');
