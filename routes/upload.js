@@ -37,7 +37,6 @@ router.use(upload.single('file'));
 router.route('/').post(
   asyncMiddleware(async (req, res) => {
     if (!req.file) {
-      console.log(req);
       throw boom.badRequest('Only CSV files are allowed');
     }
     const { buffer, originalname } = req.file;
