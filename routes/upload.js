@@ -15,12 +15,15 @@ const limit = {
 };
 
 const fileFilter = (req, file, cb) => {
-  console.log(file.mimetype);
-  if (
-    file.mimetype !== 'text/csv' &&
-    file.mimetype !== 'application/vnd.ms-excel' &&
-    file.mimetype !== 'application/octet-stream'
-  ) {
+  const acceptableTypes = [
+    'text/comma-separated-values',
+    'text/csv',
+    'application/csv',
+    'application/excel',
+    'application/vnd.ms - excel',
+    'application/vnd.msexcel'
+  ];
+  if (acceptableTypes.indexOf(file.mimetype) === -1) {
     cb(null, false);
   } else {
     cb(null, true);
