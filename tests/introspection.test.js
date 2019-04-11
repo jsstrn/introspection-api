@@ -103,6 +103,33 @@ describe('Get Introspections', () => {
         ])
       );
     });
+    it('should return correct instrospection data for a valid email in mixed case', async () => {
+      const res = await request(app)
+        .get('/introspection')
+        .query({ email: 'aBc@Tw.cOm' })
+        .expect(200);
+      const data = res.body[0];
+      expect(data.name).toBe('abc');
+      expect(data.email).toBe('abc@tw.com');
+      expect(data.office).toBe('Singapore');
+      expect(data.categories).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            category: categorySeed[0].name,
+            level: levelSeed[0].rank,
+            action: [actionSeed[0].name]
+          }),
+          expect.objectContaining({
+            category: categorySeed[2].name,
+            level: levelSeed[0].rank,
+            action: expect.arrayContaining([
+              actionSeed[0].name,
+              actionSeed[1].name
+            ])
+          })
+        ])
+      );
+    });
   });
   describe('[GET] request query by office', () => {
     it('should return status 400 for invalid office', async () => {
@@ -119,6 +146,27 @@ describe('Get Introspections', () => {
       const res = await request(app)
         .get('/introspection')
         .query({ office: 'Singapore' })
+        .expect(200);
+      const data = res.body;
+      expect(data).toHaveLength(2);
+      expect(data[1]).toEqual(
+        expect.objectContaining({
+          name: 'def',
+          email: 'def@tw.com',
+          office: 'Singapore',
+          categories: expect.arrayContaining([
+            expect.objectContaining({
+              name: categorySeed[2].name,
+              level: levelSeed[0].rank
+            })
+          ])
+        })
+      );
+    });
+    it('should return correct introspection data for valid office in mixed case', async () => {
+      const res = await request(app)
+        .get('/introspection')
+        .query({ office: 'sInGaPoRe' })
         .expect(200);
       const data = res.body;
       expect(data).toHaveLength(2);
