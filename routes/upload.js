@@ -21,7 +21,8 @@ const fileFilter = (req, file, cb) => {
     'application/csv',
     'application/excel',
     'application/vnd.ms-excel',
-    'application/vnd.msexcel'
+    'application/vnd.msexcel',
+    'application/octet-stream'
   ];
   if (acceptableTypes.indexOf(file.mimetype) === -1) {
     cb(null, false);
