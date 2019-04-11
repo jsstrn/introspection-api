@@ -1,21 +1,24 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+
+const isDev = process.env.NODE_ENV !== 'production';
 
 const whitelist = [
-  'http://localhost:3000',
-  `http://localhost:${process.env.PORT}`
+  'https://auto-introspection-app.herokuapp.com',
+  'https://auto-introspection-api.herokuapp.com'
 ];
+
+if (isDev) {
+  whitelist.push('http://localhost:3000');
+}
+
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
-      //callback(null, true);
     }
   },
   credentials: true
