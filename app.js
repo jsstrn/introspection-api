@@ -10,7 +10,9 @@ const whitelist = [
 ];
 
 if (isDev) {
+  require('dotenv').config();
   whitelist.push('http://localhost:3000');
+  whitelist.push(`http://localhost:${process.env.PORT}`);
 }
 
 const corsOptions = {
