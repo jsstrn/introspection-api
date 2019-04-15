@@ -1,9 +1,10 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const Action = require('../models/Action');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const Introspection = require('../models/Introspection');
-
+const { actionSeed } = require('./fixtures/seed');
 describe('Uploading CSV files to MongoDB', () => {
   let mongoServer;
   let db;
@@ -21,9 +22,11 @@ describe('Uploading CSV files to MongoDB', () => {
       reconnectInterval: 1000
     });
     db = mongoose.connection;
+    await Action.insertMany(actionSeed);
   });
 
   afterAll(async () => {
+    await Action.deleteMany({});
     mongoose.disconnect();
     await mongoServer.stop();
   });

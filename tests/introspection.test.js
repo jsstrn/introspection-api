@@ -1,5 +1,6 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const Action = require('../models/Action');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const Introspection = require('../models/Introspection');
@@ -32,10 +33,12 @@ describe('Get Introspections', () => {
   });
 
   beforeEach(async () => {
+    await Action.insertMany(actionSeed);
     await seedIntrospection();
   });
 
   afterEach(async () => {
+    await Action.deleteMany({});
     await Introspection.collection.deleteMany({});
   });
 
@@ -52,12 +55,12 @@ describe('Get Introspections', () => {
       expect(result1.categories).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            name: categorySeed[0].name,
+            category: categorySeed[0].name,
             level: levelSeed[0].rank,
             action: [actionSeed[0].name]
           }),
           expect.objectContaining({
-            name: categorySeed[2].name,
+            category: categorySeed[2].name,
             level: levelSeed[0].rank,
             action: expect.arrayContaining([
               actionSeed[0].name,
@@ -156,7 +159,7 @@ describe('Get Introspections', () => {
           office: 'Singapore',
           categories: expect.arrayContaining([
             expect.objectContaining({
-              name: categorySeed[2].name,
+              category: categorySeed[2].name,
               level: levelSeed[0].rank
             })
           ])
@@ -177,7 +180,7 @@ describe('Get Introspections', () => {
           office: 'Singapore',
           categories: expect.arrayContaining([
             expect.objectContaining({
-              name: categorySeed[2].name,
+              category: categorySeed[2].name,
               level: levelSeed[0].rank
             })
           ])

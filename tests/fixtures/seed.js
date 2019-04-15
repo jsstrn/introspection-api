@@ -1,4 +1,5 @@
 const Category = require('../../models/Category');
+const Action = require('../../models/Action');
 const Introspection = require('../../models/Introspection');
 const actionSeed = [
   { name: 'Would like to explore' },
@@ -23,20 +24,23 @@ const levelSeed = [
 ];
 
 const seedIntrospection = async () => {
+  await Action.collection.deleteMany({});
+  const action0 = await Action.create({ name: actionSeed[0].name });
+  const action1 = await Action.create({ name: actionSeed[1].name });
   const category1 = {
     level: levelSeed[0].rank,
     name: categorySeed[0].name,
-    action: actionSeed[0].name
+    action: [action0._id]
   };
   const category2 = {
     level: levelSeed[1].rank,
     name: categorySeed[1].name,
-    action: actionSeed[0].name
+    action: [action0._id]
   };
   const category3 = {
     level: levelSeed[0].rank,
     name: categorySeed[2].name,
-    action: [actionSeed[0].name, actionSeed[1].name]
+    action: [action0._id, action1._id]
   };
   const dummyTw1 = {
     timeStamp: '2019-03-06T02:24:00.000Z',

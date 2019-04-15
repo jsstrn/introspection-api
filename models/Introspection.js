@@ -26,9 +26,12 @@ const introspectionSchema = new mongoose.Schema({
       level: {
         type: String
       },
-      action: {
-        type: [String]
-      }
+      action: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Action'
+        }
+      ]
     }
   ]
 });

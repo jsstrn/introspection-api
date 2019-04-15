@@ -2,8 +2,10 @@ const Category = require('../../models/Category');
 const Action = require('../../models/Action');
 const Level = require('../../models/Level');
 const boom = require('boom');
-
+const { actionSeed } = require('../../tests/fixtures/seed');
 module.exports = async jsonArray => {
+  await Action.deleteMany({});
+  await Action.insertMany(actionSeed);
   for (const result of jsonArray) {
     const replaceKeysArray = [
       ['timeStamp', 'Timestamp'],
@@ -30,7 +32,25 @@ module.exports = async jsonArray => {
       };
       delete result[amendedKey];
       delete result[item];
-      categories.push(object);
+
+      let actions = [];
+      for (const item of object.action) {
+        const action = await Action.findOne({ name: item });
+        if (!action) {
+          throw boom.badRequest(
+            `invalid action '${item}' for '${category.name}' for '${
+              result.email
+            }'`
+          );
+        }
+        actions.push[action._id];
+      }
+
+      categories.push({
+        name: object.name,
+        level: object.level,
+        action: actions
+      });
     }
     result.categories = categories;
   }
