@@ -43,7 +43,7 @@ module.exports = async jsonArray => {
             }'`
           );
         }
-        actions.push[action._id];
+        actions.push(action._id);
       }
 
       categories.push({

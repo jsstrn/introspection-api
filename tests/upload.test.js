@@ -42,7 +42,7 @@ describe('Uploading CSV files to MongoDB', () => {
       const results = await Introspection.find();
       const firstResult = await Introspection.findOne({
         email: 'a@thoughtworks.com'
-      });
+      }).populate('categories.action');
       expect(results).toHaveLength(5);
       expect(res.text).toEqual(
         expect.stringContaining(`👍 Successfully uploaded`)
@@ -55,7 +55,14 @@ describe('Uploading CSV files to MongoDB', () => {
           expect.objectContaining({
             name: 'Climate Injustice',
             level: '4. Activated',
-            action: expect.arrayContaining([])
+            action: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'Would like to deepen'
+              }),
+              expect.objectContaining({
+                name: 'Would like to share'
+              })
+            ])
           })
         ])
       );
