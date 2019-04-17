@@ -39,6 +39,7 @@ app.use('/upload', require('./routes/upload'));
 app.use('/download', require('./routes/download'));
 app.use('/introspection', require('./routes/introspection'));
 app.use('/categories', require('./routes/categories'));
+app.use('/actions', require('./routes/actions'));
 app.use((err, req, res, next) => {
   return res.status(err.output.statusCode).json(err.output.payload);
 });
