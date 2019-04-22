@@ -5,8 +5,6 @@ const cors = require('cors');
 const isDev = process.env.NODE_ENV !== 'production';
 
 const whitelist = [
-  'https://auto-introspection-app.herokuapp.com',
-  'https://auto-introspection-api.herokuapp.com',
   'https://auto-introspection-app.netlify.com',
   'https://qa-introspection-app.netlify.com',
   'https://staging-introspection-app.netlify.com'
