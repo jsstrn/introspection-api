@@ -3,9 +3,8 @@ const Action = require('../../models/Action');
 const Level = require('../../models/Level');
 const boom = require('boom');
 const { actionSeed } = require('../../tests/fixtures/seed');
+
 module.exports = async jsonArray => {
-  await Action.deleteMany({});
-  await Action.insertMany(actionSeed);
   for (const result of jsonArray) {
     const replaceKeysArray = [
       ['timeStamp', 'Timestamp'],
@@ -13,14 +12,17 @@ module.exports = async jsonArray => {
       ['email', 'Email Address'],
       ['office', 'Which office are you from?']
     ];
+
     for (const [newKey, replacedKey] of replaceKeysArray) {
       result[newKey] = result[replacedKey];
       delete result[replacedKey];
     }
+
     const objectKeys = Object.keys(result);
     const actionPlanKeys = objectKeys.filter(key => {
       return key.includes('Action Plan');
     });
+
     let categories = [];
     for (const item of actionPlanKeys) {
       const pattern = /(?<=\[).*(?=\]$)/;
@@ -52,6 +54,7 @@ module.exports = async jsonArray => {
         action: actions
       });
     }
+
     result.categories = categories;
   }
 };

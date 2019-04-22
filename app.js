@@ -32,6 +32,7 @@ app.use('/', cors(corsOptions));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 // routes
 app.use('/upload', require('./routes/upload'));
 app.use('/download', require('./routes/download'));
