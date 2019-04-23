@@ -40,9 +40,7 @@ module.exports = async jsonArray => {
         const action = await Action.findOne({ name: item });
         if (!action) {
           throw boom.badRequest(
-            `invalid action '${item}' for '${category.name}' for '${
-              result.email
-            }'`
+            `Invalid action '${item}' for '${result.email}'`
           );
         }
         actions.push(action._id);
