@@ -9,7 +9,7 @@ router.route('/').get(
     const actions = await Action.find();
     const actionsMapped = actions.map(elem => elem.name);
 
-    res.status(200).json(actionsMapped);
+    res.json(actionsMapped);
   })
 );
 
