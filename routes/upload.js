@@ -52,5 +52,8 @@ router.route('/').post(
     return res.status(201).json(`👍 Successfully uploaded ${originalname}`);
   })
 );
+router.use((err, req, res, next) => {
+  return res.status(err.output.statusCode).json(err.output.payload);
+});
 
 module.exports = router;

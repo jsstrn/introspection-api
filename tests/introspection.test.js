@@ -1,9 +1,16 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const Action = require('../models/Action');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const Introspection = require('../models/Introspection');
+
+jest.mock('../authMiddleware');
+const isUserAuthenticated = require('../authMiddleware');
+
+isUserAuthenticated.mockImplementation((req, res, next) => next());
+
 const {
   actionSeed,
   levelSeed,
@@ -39,11 +46,27 @@ describe('Get Introspections', () => {
 
   afterEach(async () => {
     await Action.deleteMany({});
+
     await Introspection.collection.deleteMany({});
   });
 
   describe('[GET] requests for all', () => {
     it('should get status 200 & correct values', async () => {
+      app.use(passport.initialize());
+      app.use(passport.session());
+      app.use(function(req, res, next) {
+        req.isUserAuthenticated = function() {
+          return true;
+        };
+        req.user = {};
+        next();
+      });
+      app.get('/', function(req, res) {
+        if (!req.user || !req.isUserAuthenticated()) {
+          return res.send(403);
+        }
+        res.send(200);
+      });
       const res = await request(app)
         .get('/introspection')
         .expect(200);
@@ -77,6 +100,7 @@ describe('Get Introspections', () => {
         .get('/introspection')
         .query({ email: '123@tw.com' })
         .expect(400);
+
       expect(res.body.message).toEqual(expect.stringMatching(/invalid email/i));
     });
     it('should return correct instrospection data for a valid email', async () => {

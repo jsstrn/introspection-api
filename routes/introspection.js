@@ -3,8 +3,10 @@ const router = express.Router();
 const Introspection = require('../models/Introspection');
 const boom = require('boom');
 const asyncMiddleware = require('../asyncMiddleware');
+const authentication = require('../authMiddleware');
 
 router.route('/').get(
+  authentication,
   asyncMiddleware(async (req, res) => {
     let introspections;
     const { email, office } = req.query;
