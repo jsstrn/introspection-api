@@ -32,8 +32,8 @@ router.route('/google/callback').get(
   (req, res) => {
     const domain = feUrl.split('/')[2];
     console.log(domain);
-    res.cookie('user', req.user.name, { httpOnly: true, domain });
-    res.cookie('picture', req.user.picture, { httpOnly: true, domain });
+    res.cookie('user', req.user.name, { httpOnly: false, domain });
+    res.cookie('picture', req.user.picture, { httpOnly: false, domain });
   }
 );
 
