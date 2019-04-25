@@ -8,6 +8,7 @@ const asyncMiddleware = require('../asyncMiddleware');
 const csvParser = require('./helpers/csvParser');
 const buildModel = require('./helpers/buildModel');
 const storage = multer.memoryStorage();
+const authentication = require('../authMiddleware');
 
 const limit = {
   files: 1,
@@ -36,6 +37,7 @@ const upload = multer({ storage, limit, fileFilter });
 router.use(upload.single('file'));
 
 router.route('/').post(
+  authentication,
   asyncMiddleware(async (req, res) => {
     if (!req.file) {
       throw boom.badRequest('Only CSV files are allowed');

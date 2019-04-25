@@ -2,13 +2,12 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const passport = require('passport');
-
 const authWhitelist = ['nipunbatra.1984@gmail.com', 'achiekoaoki@gmail.com'];
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieSession = require('cookie-session');
+const { isValidBEHost, behosts } = require('./hostnames');
 
 const isDev = process.env.NODE_ENV !== 'production';
-const boom = require('boom');
 
 const whitelist = [
   'https://auto-introspection-app.netlify.com',
@@ -43,16 +42,26 @@ app.use(
 app.use(passport.initialize()); // Used to initialize passport
 app.use(passport.session());
 
+const hostname = process.env.APP_NAME;
+const hostUrl = isValidBEHost(hostname) ? behosts[hostname] : '';
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:7890/auth/google/callback'
+      callbackURL: `${hostUrl}/auth/google/callback`
     },
     (accessToken, refreshToken, profile, done) => {
       if (authWhitelist.indexOf(profile._json.email) !== -1) {
-        done(null, profile);
+        const user = {
+          name: profile._json.name,
+          email: profile._json.email,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          picture: profile._json.picture
+        };
+        done(null, user);
       }
       done(null, false, { message: 'User not found' });
     }

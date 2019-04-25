@@ -4,9 +4,11 @@ const router = express.Router();
 const multer = require('multer');
 const File = require('../models/File');
 const asyncMiddleware = require('../asyncMiddleware');
+const authentication = require('../authMiddleware');
 const storage = multer.memoryStorage();
 
 router.route('/').get(
+  authentication,
   asyncMiddleware(async (req, res) => {
     const file = await File.findOne();
     if (!file) {

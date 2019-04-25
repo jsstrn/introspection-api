@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const asyncMiddleware = require('../asyncMiddleware');
+const { isValidBEHost, fehosts } = require('../hostnames');
+
+const hostname = process.env.APP_NAME;
+const feUrl = isValidBEHost(hostname) ? fehosts[hostname] : '';
 
 const whitelist = [
   'yqyeoh@gmail.com',
@@ -22,11 +26,12 @@ router.route('/google').get((req, res, next) => {
 
 router.route('/google/callback').get(
   passport.authenticate('google', {
-    failureRedirect: 'http://localhost:3000',
+    failureRedirect: `${feUrl}`,
     session: true
   }),
   (req, res) => {
-    res.cookie('user', req.user.name.givenName, { httpOnly: false });
+    res.cookie('user', req.user.name, { httpOnly: false });
+    res.cookie('picture', req.user.picture, { httpOnly: false });
   }
 );
 
@@ -35,7 +40,7 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.clearCookie('user');
   res.clearCookie('express:sess');
-  res.redirect('http://localhost:3000');
+  res.redirect(`${feUrl}`);
 });
 
 module.exports = router;
