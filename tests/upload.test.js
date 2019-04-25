@@ -5,6 +5,10 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const app = require('../app');
 const Introspection = require('../models/Introspection');
 const { actionSeed } = require('./fixtures/seed');
+
+jest.mock('../authMiddleware');
+const isUserAuthenticated = require('../authMiddleware');
+
 describe('Uploading CSV files to MongoDB', () => {
   let mongoServer;
   let db;
@@ -31,8 +35,13 @@ describe('Uploading CSV files to MongoDB', () => {
     await mongoServer.stop();
   });
 
-  describe('[POST] uploading csv file', () => {
+  afterEach(() => {
+    isUserAuthenticated.mockReset();
+  });
+
+  describe.only('[POST] uploading csv file', () => {
     test('should transform CSV file into mongodb documents', async () => {
+      isUserAuthenticated.mockImplementationOnce((req, res, next) => next());
       const res = await request(app)
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
@@ -69,6 +78,8 @@ describe('Uploading CSV files to MongoDB', () => {
     });
 
     test('should reject csv file due to duplicate emails', async () => {
+      isUserAuthenticated.mockImplementationOnce((req, res, next) => next());
+
       const res = await request(app)
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
@@ -78,8 +89,21 @@ describe('Uploading CSV files to MongoDB', () => {
         expect.stringMatching(/duplicate key error/i)
       );
     });
+    test('should reject csv file cause user not authenticated', async () => {
+      isUserAuthenticated.mockImplementationOnce((req, res, next) => {
+        res.status(401).json({ message: 'unauthorized' });
+      });
+      // isUserAuthenticated.mockRestore();
+      const res = await request(app)
+        .post('/upload')
+        .set('Content-Type', 'multipart/form-data')
+        .attach('file', `${__dirname}/../tests/fixtures/data.csv`)
+        .expect(401);
+      expect(res.body.message).toEqual(expect.stringMatching(/unauthorized/i));
+    });
 
     test('should reject files which are not CSV format', async () => {
+      isUserAuthenticated.mockImplementationOnce((req, res, next) => next());
       const res = await request(app)
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
@@ -89,6 +113,7 @@ describe('Uploading CSV files to MongoDB', () => {
     });
 
     test('if csv file has new category, it should be created in the categories collection', async () => {
+      isUserAuthenticated.mockImplementationOnce((req, res, next) => next());
       const res = await request(app)
         .post('/upload')
         .set('Content-Type', 'multipart/form-data')
