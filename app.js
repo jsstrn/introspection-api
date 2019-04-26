@@ -2,7 +2,15 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const passport = require('passport');
-const authWhitelist = ['nipunbatra.1984@gmail.com', 'achiekoaoki@gmail.com'];
+const authWhitelist = [
+  'nipunbatra.1984@gmail.com',
+  'achiekoaoki@gmail.com',
+  'achan@thoughtworks.com',
+  'jrays@thoughtworks.com',
+  'nictengkk@gmail.com',
+  'jerome.lim.zw@gmail.com',
+  'yqyeoh@gmail.com'
+];
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieSession = require('cookie-session');
 const { isValidBEHost, behosts } = require('./hostnames');
