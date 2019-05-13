@@ -9,7 +9,8 @@ const authWhitelist = [
   'jrays@thoughtworks.com',
   'nictengkk@gmail.com',
   'jerome.lim.zw@gmail.com',
-  'yqyeoh@gmail.com'
+  'yqyeoh@gmail.com',
+  'jqtan@thoughtworks.com'
 ];
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieSession = require('cookie-session');

@@ -7,17 +7,6 @@ const { isValidBEHost, fehosts } = require('../hostnames');
 const hostname = process.env.APP_NAME;
 const feUrl = isValidBEHost(hostname) ? fehosts[hostname] : '';
 
-const whitelist = [
-  'yqyeoh@gmail.com',
-  'jessternrays@gmail.com',
-  'nictengkk@gmail.com',
-  'nipunbatra.1984@gmail.com',
-  'achiekoaoki@gmail.com',
-  'jerome.lim.zw@gmail.com'
-];
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const cookieSession = require('cookie-session');
-
 router.route('/google').get((req, res, next) => {
   passport.authenticate('google', {
     scope: ['profile', 'email'] // Used to specify the required data
